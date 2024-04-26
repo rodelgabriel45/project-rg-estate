@@ -6,6 +6,8 @@ import SignInPage from "./pages/SignIn";
 import NavRootLayout from "./pages/NavRoot";
 import ProfilePage from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
+import SignInPrivateRoute from "./components/SignInPrivateRoute";
+import SignUpPrivateRoute from "./components/SignUpPrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,15 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "/about", element: <AboutPage /> },
-      { path: "/sign-in", element: <SignInPage /> },
-      { path: "/sign-up", element: <SignUpPage /> },
+      {
+        element: <SignInPrivateRoute />,
+        children: [{ path: "/sign-in", element: <SignInPage /> }],
+      },
+      {
+        element: <SignUpPrivateRoute />,
+        children: [{ path: "/sign-up", element: <SignUpPage /> }],
+      },
+
       {
         element: <PrivateRoute />,
         children: [{ path: "/profile", element: <ProfilePage /> }],

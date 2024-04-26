@@ -15,11 +15,11 @@ export default function Header() {
 
   return (
     <header>
-      <nav className="flex justify-between px-20 py-4 mx-auto bg-green-800 text-white">
-        <h1 className="font-bold text-3xl">
+      <nav className="flex justify-between px-8 sm:px-20 py-4 mx-auto bg-green-800 text-white">
+        <h1 className="font-bold text-2xl sm:text-3xl">
           <Link>Logo</Link>
         </h1>
-        <ul className="flex text-xl space-x-4 items-center">
+        <ul className="flex text-lg sm:text-xl space-x-4 items-center">
           <li className="hover:text-amber-500 hover:underline hover:underline-offset-4">
             <Link to={"/"}>Home</Link>
           </li>
