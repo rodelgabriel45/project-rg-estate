@@ -1,11 +1,47 @@
-import { useSelector } from "react-redux";
-
-import Input from "../components/Input";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import Input from "../components/Input";
+import {
+  requestFailure,
+  requestStart,
+  clearError,
+  clearState,
+} from "../../store/user/userSlice";
+
 export default function ProfilePage() {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading } = useSelector((state) => state.user);
   const currentUserData = currentUser.data;
+  const dispatch = useDispatch();
+
+  const customTimeOut = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        dispatch(clearError());
+        resolve();
+      }, 2000);
+    });
+  };
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(requestStart());
+      const response = await fetch("/api/auth/signout");
+      const resData = await response.json();
+
+      if (!resData.success) {
+        dispatch(requestFailure(resData));
+        await customTimeOut();
+        return;
+      }
+
+      dispatch(clearState());
+    } catch (error) {
+      dispatch(requestFailure(error));
+
+      await customTimeOut();
+    }
+  };
 
   return (
     <div className="text-center mt-5 ">
@@ -29,7 +65,10 @@ export default function ProfilePage() {
         <p className="text-red-700 text-sm font-semibold hover:opacity-70">
           <Link>Delete User</Link>
         </p>
-        <p className="text-red-700 text-sm font-semibold hover:opacity-70">
+        <p
+          onClick={handleSignOut}
+          className="text-red-700 text-sm font-semibold hover:opacity-70"
+        >
           <Link>Signout</Link>
         </p>
       </div>

@@ -50,3 +50,14 @@ export const signin = async (req, res, next) => {
     next(errorHandler(500, "Error in Sign In!"));
   }
 };
+
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie("access_cookie");
+    res
+      .status(200)
+      .json({ success: true, message: "User has been logged out!" });
+  } catch (error) {
+    next(error);
+  }
+};
