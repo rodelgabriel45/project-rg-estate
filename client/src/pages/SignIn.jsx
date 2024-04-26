@@ -8,6 +8,7 @@ import {
   requestSuccess,
   clearError,
 } from "../../store/user/userSlice";
+import OAuth from "../components/OAuth";
 
 export default function SignInPage() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -80,6 +81,7 @@ export default function SignInPage() {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAuth />
       </form>
       {error && <p className="mt-4 font-bold text-red-600">{error.message}</p>}
       <div className="flex justify-center mt-4 space-x-2">
