@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import SignInPrivateRoute from "./components/SignInPrivateRoute";
 import SignUpPrivateRoute from "./components/SignUpPrivateRoute";
 import PageError from "./pages/PageError";
+import CreateListingPage from "./pages/CreateListing";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
         element: <PrivateRoute />,
         children: [{ path: "/profile", element: <ProfilePage /> }],
       },
+      { path: "/create-listing", element: <CreateListingPage /> },
     ],
   },
 ]);

@@ -17,6 +17,7 @@ import {
   requestSuccess,
 } from "../../store/user/userSlice";
 import { app } from "../firebase";
+import Button from "../components/Button";
 
 export default function ProfilePage() {
   const fileUpRef = useRef();
@@ -91,22 +92,26 @@ export default function ProfilePage() {
   }
 
   const handleSignOut = async () => {
-    try {
-      dispatch(requestStart());
-      const response = await fetch("/api/auth/signout");
-      const resData = await response.json();
+    const proceed = window.confirm("Are you sure you want to logout?");
 
-      if (!resData.success) {
-        dispatch(requestFailure(resData));
+    if (proceed) {
+      try {
+        dispatch(requestStart());
+        const response = await fetch("/api/auth/signout");
+        const resData = await response.json();
+
+        if (!resData.success) {
+          dispatch(requestFailure(resData));
+          await customTimeOut();
+          return;
+        }
+
+        dispatch(clearState());
+      } catch (error) {
+        dispatch(requestFailure(error));
+
         await customTimeOut();
-        return;
       }
-
-      dispatch(clearState());
-    } catch (error) {
-      dispatch(requestFailure(error));
-
-      await customTimeOut();
     }
   };
 
@@ -204,7 +209,7 @@ export default function ProfilePage() {
             ""
           )}
         </p>
-        <div className="flex flex-col space-y-4 mt-10">
+        <div className="flex flex-col space-y-4 mt-10 mb-2">
           <Input
             onChange={(e) => {
               handleChange(e);
@@ -230,18 +235,23 @@ export default function ProfilePage() {
             placeholder="Password"
           />
         </div>
-        <button
+        <Button
+          bgColor="bg-slate-700"
           disabled={loading}
-          className="bg-slate-700 text-white p-2 w-[24rem] h-12 rounded-md hover:opacity-95 disabled:opacity-70 mt-4 sm:w-[28rem] sm:h-14"
+          className=" text-white p-2 w-[24rem] h-12 rounded-md hover:opacity-95 disabled:opacity-70 mt-4 sm:w-[28rem] sm:h-14"
         >
           {loading ? "Updating..." : "Update"}
-        </button>
+        </Button>
       </form>
+      <Link to={"/create-listing"}>
+        <Button bgColor="bg-green-700">Create Listing</Button>
+      </Link>
+
       {updateSuccess && (
         <p className="mt-4 font-bold text-green-600">Updated Successfully!</p>
       )}
       {error && <p className="mt-4 font-bold text-red-600">{error.message}</p>}
-      <div className="flex justify-between px-14 mt-2 sm:justify-center sm:mx-auto sm:space-x-[20.5rem] sm:max-w-max">
+      <div className="flex justify-between px-14 mt-4 sm:justify-center sm:mx-auto sm:space-x-[20.5rem] sm:max-w-max">
         <p
           onClick={handleDeleteUser}
           className="text-red-700 text-sm font-semibold hover:opacity-70"
