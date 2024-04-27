@@ -13,6 +13,7 @@ import {
 import OAuth from "../components/OAuth";
 
 export default function SignUpPage() {
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,6 +26,19 @@ export default function SignUpPage() {
       }, 2000);
     });
   };
+
+  useEffect(() => {
+    if (signUpSuccess) {
+      setTimeout(() => {
+        setSignUpSuccess(false);
+        navigate("/sign-in");
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout();
+    };
+  }, [signUpSuccess]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,8 +70,8 @@ export default function SignUpPage() {
         return;
       }
 
-      dispatch(clearLoading());
-      navigate("/sign-in");
+      dispatch(requestSuccess(resData));
+      setSignUpSuccess(true);
     } catch (error) {
       dispatch(requestFailure(error));
       await customTimeOut();
@@ -87,6 +101,11 @@ export default function SignUpPage() {
         </button>
         <OAuth />
       </form>
+      {signUpSuccess && (
+        <p className="mt-4 font-bold text-green-700">
+          User created successfully! Redirecting to sign-in...
+        </p>
+      )}
       {error && <p className="mt-4 font-bold text-red-600">{error.message}</p>}
       <div className="flex justify-center mt-4 space-x-2">
         <p>Have an account?</p>

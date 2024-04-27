@@ -8,11 +8,13 @@ import ProfilePage from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 import SignInPrivateRoute from "./components/SignInPrivateRoute";
 import SignUpPrivateRoute from "./components/SignUpPrivateRoute";
+import PageError from "./pages/PageError";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <NavRootLayout />,
+    errorElement: <PageError />,
     children: [
       { index: true, element: <HomePage /> },
       { path: "/about", element: <AboutPage /> },

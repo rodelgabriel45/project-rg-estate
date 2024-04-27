@@ -23,6 +23,7 @@ export default function ProfilePage() {
   const [fileUploaded, setFileUploaded] = useState();
   const [fileUploadPerc, setFileUploadPerc] = useState();
   const [fileUploadErr, setFileUploadErr] = useState();
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [formData, setFormData] = useState();
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const currentUserData = currentUser.data;
@@ -69,6 +70,18 @@ export default function ProfilePage() {
       }
     );
   };
+
+  useEffect(() => {
+    if (updateSuccess) {
+      setTimeout(() => {
+        setUpdateSuccess(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout();
+    };
+  }, [updateSuccess]);
 
   function handleChange(e) {
     setFormData({
@@ -119,6 +132,7 @@ export default function ProfilePage() {
       }
 
       dispatch(requestSuccess(resData));
+      setUpdateSuccess(true);
     } catch (error) {
       dispatch(requestFailure(error));
       await customTimeOut();
@@ -144,6 +158,7 @@ export default function ProfilePage() {
         if (!resData.success) {
           dispatch(requestFailure(resData));
           await customTimeOut();
+          return;
         }
 
         dispatch(requestSuccess(resData));
@@ -222,6 +237,9 @@ export default function ProfilePage() {
           {loading ? "Updating..." : "Update"}
         </button>
       </form>
+      {updateSuccess && (
+        <p className="mt-4 font-bold text-green-600">Updated Successfully!</p>
+      )}
       {error && <p className="mt-4 font-bold text-red-600">{error.message}</p>}
       <div className="flex justify-between px-14 mt-2 sm:justify-center sm:mx-auto sm:space-x-[20.5rem] sm:max-w-max">
         <p
