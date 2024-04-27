@@ -28,7 +28,7 @@ export default function Header() {
           </li>
           <li className="hover:text-amber-500 hover:underline hover:underline-offset-4">
             <Link to={currentUser?.data ? "/profile" : "/sign-in"}>
-              {currentUser ? profileImg : "Sign In"}
+              {currentUser?.data ? profileImg : "Sign In"}
             </Link>
           </li>
         </ul>

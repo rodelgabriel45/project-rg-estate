@@ -125,6 +125,35 @@ export default function ProfilePage() {
     }
   };
 
+  const handleDeleteUser = async () => {
+    const proceed = window.confirm(
+      "This account will be deleted permanently. Continue?"
+    );
+
+    if (proceed) {
+      try {
+        const response = await fetch(
+          `/api/user/delete/${currentUserData._id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        const resData = await response.json();
+
+        if (!resData.success) {
+          dispatch(requestFailure(resData));
+          await customTimeOut();
+        }
+
+        dispatch(requestSuccess(resData));
+      } catch (error) {
+        dispatch(requestFailure(error));
+        await customTimeOut();
+      }
+    }
+  };
+
   return (
     <div className="text-center mt-5 ">
       <h1 className="font-bold text-3xl sm:text-4xl mb-10">Profile</h1>
@@ -195,7 +224,10 @@ export default function ProfilePage() {
       </form>
       {error && <p className="mt-4 font-bold text-red-600">{error.message}</p>}
       <div className="flex justify-between px-14 mt-2 sm:justify-center sm:mx-auto sm:space-x-[20.5rem] sm:max-w-max">
-        <p className="text-red-700 text-sm font-semibold hover:opacity-70">
+        <p
+          onClick={handleDeleteUser}
+          className="text-red-700 text-sm font-semibold hover:opacity-70"
+        >
           <Link>Delete User</Link>
         </p>
         <p
