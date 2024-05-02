@@ -162,7 +162,7 @@ export default function ProfilePage() {
         const resData = await response.json();
 
         if (!resData.success) {
-          dispatch(requestFailure(resData));
+          dispatch(requestFailure(resData.data));
           await customTimeOut();
           return;
         }
@@ -185,9 +185,37 @@ export default function ProfilePage() {
       }
 
       dispatch(clearError());
-      setUserListings(resData);
+      console.log(resData.data);
+      setUserListings(resData.data);
     } catch (error) {
       dispatch(requestFailure(error));
+    }
+  };
+
+  const handleDeleteListing = async (listingId) => {
+    const proceed = window.confirm(
+      "This listing will be deleted permanently. Proceed?"
+    );
+
+    if (proceed) {
+      try {
+        const response = await fetch(`/api/listing/delete/${listingId}`, {
+          method: "DELETE",
+        });
+
+        const resData = await response.json();
+
+        if (response.success === false) {
+          console.log(resData);
+          return;
+        }
+
+        setUserListings((prevState) =>
+          prevState.filter((listing) => listing._id !== listingId)
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -288,35 +316,39 @@ export default function ProfilePage() {
       >
         Show Listings
       </button>
-      <div className="px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 sm:gap-4">
-        {userListings?.data?.length > 0 &&
-          userListings.data.map((listing) => {
+      <div className="px-4 grid grid-cols-1 lg:grid-cols-2 xl:px-0 sm:gap-4">
+        {userListings?.length > 0 &&
+          userListings.map((listing) => {
             return (
               <div
-                className="mx-auto mb-10 p-6 my-3 border-2 shadow-sm max-w-[32rem] rounded-lg hover:scale-105 transform transition ease-in-out"
+                className="mx-auto mb-10 p-6 my-3 border-2 shadow-sm w-[28rem] xl:w-[40rem] rounded-lg hover:scale-105 transform transition ease-in-out"
                 key={listing._id}
               >
-                <Link
-                  className="flex justify-between items-center space-x-10"
-                  to={`/listing/${listing._id}`}
-                >
-                  <img
-                    className="h-16 w-24 object-contain"
-                    src={listing.imageUrls[0]}
-                    alt="Listing Photo"
-                  />
-                  <h3 className="font-bold text-lg hover:underline truncate">
-                    {listing.name}
-                  </h3>
+                <div className="flex justify-between items-center space-x-10">
+                  <Link to={`/listing/${listing._id}`}>
+                    <div className="flex items-center gap-4">
+                      <img
+                        className="h-16 w-24 object-contain"
+                        src={listing.imageUrls[0]}
+                        alt="Listing Photo"
+                      />
+                      <h3 className="font-bold text-lg hover:underline truncate">
+                        {listing.name}
+                      </h3>
+                    </div>
+                  </Link>
                   <div className="flex flex-col gap-2">
-                    <button className="text-black p-2 rounded-md border border-red-600 hover:bg-red-500 hover:text-white">
+                    <button
+                      onClick={() => handleDeleteListing(listing._id)}
+                      className="text-black p-2 rounded-md border border-red-600 hover:bg-red-500 hover:text-white"
+                    >
                       DELETE
                     </button>
                     <button className="text-black p-2 rounded-md border border-green-600 hover:bg-green-500 hover:text-white">
                       EDIT
                     </button>
                   </div>
-                </Link>
+                </div>
               </div>
             );
           })}
