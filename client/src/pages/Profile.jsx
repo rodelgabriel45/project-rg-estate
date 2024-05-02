@@ -25,6 +25,7 @@ export default function ProfilePage() {
   const [fileUploadPerc, setFileUploadPerc] = useState();
   const [fileUploadErr, setFileUploadErr] = useState();
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const [formData, setFormData] = useState();
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const currentUserData = currentUser.data;
@@ -174,6 +175,22 @@ export default function ProfilePage() {
     }
   };
 
+  const handleShowListings = async () => {
+    try {
+      const response = await fetch(`/api/user/listings/${currentUserData._id}`);
+      const resData = await response.json();
+
+      if (!resData.success) {
+        dispatch(requestFailure(resData));
+      }
+
+      dispatch(clearError());
+      setUserListings(resData);
+    } catch (error) {
+      dispatch(requestFailure(error));
+    }
+  };
+
   return (
     <div className="text-center mt-5 ">
       <h1 className="font-bold text-3xl sm:text-4xl mb-10">Profile</h1>
@@ -264,6 +281,45 @@ export default function ProfilePage() {
         >
           <Link>Signout</Link>
         </p>
+      </div>
+      <button
+        onClick={handleShowListings}
+        className="text-green-600 font-semibold hover:opacity-70 mb-10"
+      >
+        Show Listings
+      </button>
+      <div className="px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 sm:gap-4">
+        {userListings?.data?.length > 0 &&
+          userListings.data.map((listing) => {
+            return (
+              <div
+                className="mx-auto mb-10 p-6 my-3 border-2 shadow-sm max-w-[32rem] rounded-lg hover:scale-105 transform transition ease-in-out"
+                key={listing._id}
+              >
+                <Link
+                  className="flex justify-between items-center space-x-10"
+                  to={`/listing/${listing._id}`}
+                >
+                  <img
+                    className="h-16 w-24 object-contain"
+                    src={listing.imageUrls[0]}
+                    alt="Listing Photo"
+                  />
+                  <h3 className="font-bold text-lg hover:underline truncate">
+                    {listing.name}
+                  </h3>
+                  <div className="flex flex-col gap-2">
+                    <button className="text-black p-2 rounded-md border border-red-600 hover:bg-red-500 hover:text-white">
+                      DELETE
+                    </button>
+                    <button className="text-black p-2 rounded-md border border-green-600 hover:bg-green-500 hover:text-white">
+                      EDIT
+                    </button>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
