@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -21,6 +21,7 @@ import Button from "../components/Button";
 
 export default function ProfilePage() {
   const fileUpRef = useRef();
+  const navigate = useNavigate();
   const [fileUploaded, setFileUploaded] = useState();
   const [fileUploadPerc, setFileUploadPerc] = useState();
   const [fileUploadErr, setFileUploadErr] = useState();
@@ -219,6 +220,10 @@ export default function ProfilePage() {
     }
   };
 
+  const handleEditListing = (listingId) => {
+    navigate(`/edit-listing/${listingId}`);
+  };
+
   return (
     <div className="text-center mt-5 ">
       <h1 className="font-bold text-3xl sm:text-4xl mb-10">Profile</h1>
@@ -339,12 +344,17 @@ export default function ProfilePage() {
                   </Link>
                   <div className="flex flex-col gap-2">
                     <button
+                      type="button"
                       onClick={() => handleDeleteListing(listing._id)}
                       className="text-black p-2 rounded-md border border-red-600 hover:bg-red-500 hover:text-white"
                     >
                       DELETE
                     </button>
-                    <button className="text-black p-2 rounded-md border border-green-600 hover:bg-green-500 hover:text-white">
+                    <button
+                      type="button"
+                      onClick={() => handleEditListing(listing._id)}
+                      className="text-black p-2 rounded-md border border-green-600 hover:bg-green-500 hover:text-white"
+                    >
                       EDIT
                     </button>
                   </div>

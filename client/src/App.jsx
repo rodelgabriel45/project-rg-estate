@@ -11,6 +11,7 @@ import SignUpPrivateRoute from "./components/SignUpPrivateRoute";
 import PageError from "./pages/PageError";
 import CreateListingPage from "./pages/CreateListing";
 import ListingDetailsPage from "./pages/ListingDetails";
+import EditListingPage from "./pages/EditListing";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
         ],
       },
       { path: "/listing/:listingId", element: <ListingDetailsPage /> },
+      { path: "/edit-listing/:listingId", element: <EditListingPage /> },
     ],
   },
 ]);
