@@ -11,6 +11,8 @@ import { FaParking } from "react-icons/fa";
 import { FaChair } from "react-icons/fa";
 
 import { numberFormatter } from "../utils/numberFormatter";
+import { useSelector } from "react-redux";
+import Contact from "../components/Contact";
 
 export default function ListingDetailsPage() {
   SwiperCore.use([Navigation]);
@@ -18,6 +20,8 @@ export default function ListingDetailsPage() {
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const listingId = params.listingId;
+  const { currentUser } = useSelector((state) => state.user);
+  const [contact, setContact] = useState(false);
 
   useEffect(() => {
     const fetchListingDetails = async () => {
@@ -61,7 +65,7 @@ export default function ListingDetailsPage() {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="flex flex-col justify-center items-center mb-20">
+          <div className="flex flex-col p-4 mx-auto justify-center items-center mb-20 max-w-[50rem]">
             <div className="mt-10 space-y-4">
               <h2 className="font-bold text-2xl">
                 {listingDetails.name} -{" "}
@@ -74,14 +78,14 @@ export default function ListingDetailsPage() {
                 <FaMapMarkerAlt className="text-green-500" />
                 <p>{listingDetails.address}</p>
               </div>
-              <div className="flex">
+              <div className="flex gap-4">
                 <button className="bg-red-700 px-4 py-2 rounded-md text-white">
                   {listingDetails.type === "sale" ? "For Sale" : "For Rent"}
                 </button>
                 {listingDetails.offer && (
                   <button className="bg-green-500 px-4 py-2 rounded-md text-white">
                     {numberFormatter.format(listingDetails.discountedPrice)}{" "}
-                    discount
+                    discounted
                   </button>
                 )}
               </div>
@@ -110,6 +114,17 @@ export default function ListingDetailsPage() {
                 </div>
               </div>
             </div>
+            {currentUser?.data &&
+              listingDetails.userRef !== currentUser?.data?._id &&
+              !contact && (
+                <button
+                  onClick={() => setContact(true)}
+                  className="bg-slate-700 text-white p-2 mt-10 rounded-md w-[28rem] md:w-[50rem] hover:opacity-85"
+                >
+                  Contact Agent
+                </button>
+              )}
+            {contact && <Contact listing={listingDetails} />}
           </div>
         </>
       )}
