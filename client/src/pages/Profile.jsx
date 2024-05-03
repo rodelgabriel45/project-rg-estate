@@ -186,7 +186,6 @@ export default function ProfilePage() {
       }
 
       dispatch(clearError());
-      console.log(resData.data);
       setUserListings(resData.data);
     } catch (error) {
       dispatch(requestFailure(error));
