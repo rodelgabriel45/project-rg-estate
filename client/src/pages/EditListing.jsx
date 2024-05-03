@@ -234,7 +234,9 @@ export default function CreateListingPage() {
           }
 
           dispatch(clearLoading());
-          setUpdateSuccessfull("You have successfully updated this listing!");
+          setUpdateSuccessfull(
+            "You have successfully updated this listing! Redirecting now to the listing..."
+          );
         } catch (error) {
           console.log(error);
         }
@@ -248,6 +250,7 @@ export default function CreateListingPage() {
     if (updateSuccessfull) {
       setTimeout(() => {
         setUpdateSuccessfull("");
+        navigate(`/listing/${params.listingId}`);
       }, 4000);
 
       return () => {
