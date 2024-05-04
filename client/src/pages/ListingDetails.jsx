@@ -83,9 +83,11 @@ export default function ListingDetailsPage() {
                   {listingDetails.type === "sale" ? "For Sale" : "For Rent"}
                 </button>
                 {listingDetails.offer && (
-                  <button className="bg-green-500 px-4 py-2 rounded-md text-white">
-                    {numberFormatter.format(listingDetails.discountedPrice)}{" "}
-                    discounted
+                  <button className="bg-green-500 px-4 py-2 rounded-md text-white flex gap-2">
+                    <s>{numberFormatter.format(listingDetails.regularPrice)}</s>
+                    <p>
+                      {numberFormatter.format(listingDetails.discountedPrice)}
+                    </p>
                   </button>
                 )}
               </div>
