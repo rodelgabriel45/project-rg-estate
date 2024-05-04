@@ -24,8 +24,6 @@ export default function Header() {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("searchTerm", searchTerm);
 
-    console.log(urlParams);
-
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
