@@ -224,7 +224,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="text-center mt-5 ">
+    <div className="text-center mt-5 min-h-screen">
       <h1 className="font-bold text-3xl sm:text-4xl mb-10">Profile</h1>
       <form
         onSubmit={(e) => handleSubmit(e)}
@@ -293,7 +293,7 @@ export default function ProfilePage() {
         </Button>
       </form>
       <Link to={"/create-listing"}>
-        <Button bgColor="bg-green-700">Create Listing</Button>
+        <Button bgColor="bg-[#116530]">Create Listing</Button>
       </Link>
 
       {updateSuccess && (

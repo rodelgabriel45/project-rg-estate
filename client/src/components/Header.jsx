@@ -39,9 +39,11 @@ export default function Header() {
 
   return (
     <header>
-      <nav className="flex justify-between items-center px-8 sm:px-20 py-4 mx-auto bg-green-800 text-white">
-        <h1 className="font-bold text-2xl sm:text-3xl">
-          <Link>Logo</Link>
+      <nav className="flex justify-between items-center px-8 sm:px-20 py-4 mx-auto bg-[#116530] text-white">
+        <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl">
+          <Link>
+            <span className="text-[#A3EBB1]">RG</span>Estate
+          </Link>
         </h1>
         <form
           onSubmit={(e) => handleSubmit(e)}
@@ -55,17 +57,17 @@ export default function Header() {
             className="text-black rounded-md p-3 focus:outline-none w-32 sm:ms-10 sm:w-64 lg:w-[30rem] shadow-md"
           />
           <button>
-            <FaSearch className="absolute right-0 top-4 md:top-3 mr-4 text-lg md:text-2xl text-blue-700 hover:opacity-80" />
+            <FaSearch className="absolute right-0 top-4 md:top-3 mr-4 text-lg md:text-2xl text-[#21B6A8] hover:opacity-80" />
           </button>
         </form>
         <ul className="flex text-lg sm:text-xl space-x-4 items-center">
-          <li className="hover:text-amber-500 hover:underline hover:underline-offset-4">
+          <li className="hover:text-[#A3EBB1] hover:underline hover:underline-offset-4">
             <Link to={"/"}>Home</Link>
           </li>
-          <li className="hover:text-amber-500 hover:underline hover:underline-offset-4">
+          <li className="hover:text-[#A3EBB1] hover:underline hover:underline-offset-4">
             <Link to={"/about"}>About</Link>
           </li>
-          <li className="hover:text-amber-500 hover:underline hover:underline-offset-4">
+          <li className="hover:text-[#A3EBB1] hover:underline hover:underline-offset-4">
             <Link to={currentUser?.data ? "/profile" : "/sign-in"}>
               {currentUser?.data ? profileImg : "Sign In"}
             </Link>

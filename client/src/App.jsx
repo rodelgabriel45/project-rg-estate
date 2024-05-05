@@ -13,6 +13,7 @@ import CreateListingPage from "./pages/CreateListing";
 import ListingDetailsPage from "./pages/ListingDetails";
 import EditListingPage from "./pages/EditListing";
 import Search from "./pages/Search";
+import FooterLayout from "./pages/FooterLayout";
 
 const router = createBrowserRouter([
   {
@@ -20,27 +21,33 @@ const router = createBrowserRouter([
     element: <NavRootLayout />,
     errorElement: <PageError />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: "/about", element: <AboutPage /> },
       {
-        element: <SignInPrivateRoute />,
-        children: [{ path: "/sign-in", element: <SignInPage /> }],
-      },
-      {
-        element: <SignUpPrivateRoute />,
-        children: [{ path: "/sign-up", element: <SignUpPage /> }],
-      },
-
-      {
-        element: <PrivateRoute />,
+        path: "/",
+        element: <FooterLayout />,
         children: [
-          { path: "/profile", element: <ProfilePage /> },
-          { path: "/create-listing", element: <CreateListingPage /> },
+          { index: true, element: <HomePage /> },
+          { path: "/about", element: <AboutPage /> },
+          {
+            element: <SignInPrivateRoute />,
+            children: [{ path: "/sign-in", element: <SignInPage /> }],
+          },
+          {
+            element: <SignUpPrivateRoute />,
+            children: [{ path: "/sign-up", element: <SignUpPage /> }],
+          },
+
+          {
+            element: <PrivateRoute />,
+            children: [
+              { path: "/profile", element: <ProfilePage /> },
+              { path: "/create-listing", element: <CreateListingPage /> },
+            ],
+          },
+          { path: "/listing/:listingId", element: <ListingDetailsPage /> },
+          { path: "/edit-listing/:listingId", element: <EditListingPage /> },
+          { path: "/search", element: <Search /> },
         ],
       },
-      { path: "/listing/:listingId", element: <ListingDetailsPage /> },
-      { path: "/edit-listing/:listingId", element: <EditListingPage /> },
-      { path: "/search", element: <Search /> },
     ],
   },
 ]);

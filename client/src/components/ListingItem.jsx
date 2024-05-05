@@ -16,7 +16,7 @@ export default function ListingItem({ listing }) {
           <p className="font-bold text-lg truncate">{listing.name}</p>
           <div className="flex items-center gap-2 text-start text-md">
             <FaMapMarkerAlt className="text-green-500" />
-            <p className="font-semibold">{listing.address}</p>
+            <p className="font-semibold truncate">{listing.address}</p>
           </div>
           <p className="line-clamp-4">{listing.description}</p>
           <p className="font-semibold text-lg text-slate-600">
