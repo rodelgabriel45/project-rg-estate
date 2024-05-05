@@ -57,7 +57,7 @@ export default function Footer() {
           <FaFacebook className="cursor-pointer hover:text-[#A3EBB1]" />
           <AiFillInstagram className="cursor-pointer hover:text-[#A3EBB1]" />
           <FaSquareXTwitter className="cursor-pointer hover:text-[#A3EBB1]" />
-          <SiGmail />
+          <SiGmail className="cursor-pointer hover:text-[#A3EBB1]" />
         </div>
       </div>
     </div>

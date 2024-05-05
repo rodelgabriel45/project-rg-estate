@@ -248,7 +248,7 @@ export default function CreateListingPage() {
     "shadow-md border border-slate-400 w-[24rem]  p-2 rounded-md";
 
   return (
-    <main className="text-center mt-5 ">
+    <main className="text-center mt-5 min-h-screen">
       <h1 className="font-bold text-3xl md:text-4xl mb-10 md:mb-20">
         Create a listing
       </h1>
