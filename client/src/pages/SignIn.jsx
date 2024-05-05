@@ -62,7 +62,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="text-center mt-10">
+    <div className="text-center mt-10 min-h-screen">
       <h1 className="text-3xl sm:text-4xl font-bold mb-10">Sign In</h1>
       <form
         onSubmit={(e) => handleSubmit(e)}
