@@ -26,7 +26,6 @@ export default function CreateListingPage() {
   const [files, setFiles] = useState([]);
   const [type, setType] = useState();
   const [updateSuccessfull, setUpdateSuccessfull] = useState("");
-  const [listingResponse, setListingResponse] = useState(null);
   const [saleCheck, setSaleCheck] = useState("");
   const [rentCheck, setRentCheck] = useState("");
   const [uploading, setUploading] = useState(false);
