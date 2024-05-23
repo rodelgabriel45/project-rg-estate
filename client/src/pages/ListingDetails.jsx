@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
@@ -116,6 +116,14 @@ export default function ListingDetailsPage() {
                 </div>
               </div>
             </div>
+            {!currentUser && (
+              <Link
+                to="/sign-in"
+                className="mt-11 text-lg font-semibold hover:bg-teal-600 hover:shadow-lg border p-4 rounded-md border-teal-600"
+              >
+                Signin to contact the agent
+              </Link>
+            )}
             {currentUser?.data &&
               listingDetails.userRef !== currentUser?.data?._id &&
               !contact && (
